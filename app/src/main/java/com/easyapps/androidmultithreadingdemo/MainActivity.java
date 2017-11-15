@@ -1,5 +1,6 @@
 package com.easyapps.androidmultithreadingdemo;
 
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +12,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean stopLoop;
     int counter = 0;
     TextView counterTxt;
+    Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,11 +20,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         counterTxt = findViewById(R.id.counter);
+        handler=new Handler(getApplicationContext().getMainLooper());
 
         Log.i("flow", "onCreate: Thread id of our Main/UI thread : " + Thread.currentThread().getId());
         logSleepThread(250);
-        Log.i("flow", "onCreate:  in this test we will try to update the UI(Counter Textview) of main thread" +
-                " from the separate thread");
+        Log.i("flow", "onCreate: click start thread button to start a new thread");
 
     }
 
@@ -33,35 +35,34 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 Log.i("flow", "run: new thread created,thread id : " + Thread.currentThread().getId());
-                logSleepThread(3000);
+                logSleepThread(1000);
                 if (stopLoop = true)
                     Log.i("flow", "run: loop has started ,it will increment the Counter Variable");
-                logSleepThread(3000);
-                Log.i("flow", "run: and update the counter TextView with each increment");
-                logSleepThread(3000);
-                Log.i("flow", "run: we have put this update textView code in try Catch  ");
-                logSleepThread(3000);
-                Log.i("flow", "run: so we get to se exeption/error ,if any");
-                logSleepThread(3000);
-                Log.i("flow", "run: if execption/error occurs,the loop will be exited and execption will be logged");
-                logSleepThread(3000);
-                Log.i("flow", "run: otherwise the loop continues and counter is updated until we stop the separate thread.");
-                logSleepThread(3000);
+                logSleepThread(1000);
 
                 while (stopLoop) {
                     try {
-                        Log.i("flow", "startThread: inside while loop : ");
-                        counterTxt.setText("Counter(loops compteted) : " + counter);
                         counter++;
-                        Thread.sleep(1500);
+                        Log.i("flow", "run: Counter incremented");
+                        Thread.sleep(1000);
+                        Log.i("flow", "run: we will put our update CounterTextView inside a runnable object");
+                        Log.i("flow", "run: posting a runnable object(task) to UI handler ");
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                counterTxt.setText("Counter(loops compteted) : " + counter);
+                            }
+                        });
+                        Log.i("flow", "run: now the app should not crash,because we are not updating UI thread directly from separate thread");
+                        Log.i("flow", "----------------------------------------------------------------------------------" +
+                                "-----------------------------------------");
                     } catch (Exception e) {
                         Log.i("flow", "run: exeption occurred ");
-                        logSleepThread(3000);
+                        logSleepThread(1000);
                         Log.i("flow", "run: Exeption description : " + e.getMessage());
-                        logSleepThread(1500);
-                        Log.i("flow", "run: so it proves we can't update UI of main thread from a separate thread.");
-                        logSleepThread(1500);
-                        Log.i("flow", "run: may be their is a work around ! Lets see ");
+                        logSleepThread(1000);
+                        Log.i("flow", "run: code will hopefully not get to catch block,because we are " +
+                                "not updating UI thread directly from separate thread");
                         return;
                     }
                 }

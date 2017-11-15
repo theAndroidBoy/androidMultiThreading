@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/AndroidMultiThreadingDemo.iml" filepath="$PROJECT_DIR$/AndroidMultiThreadingDemo.iml" />
+      <module fileurl="file://C:\Users\Asim\Desktop\Workspace\androidMultiThreadingBehaviour\AndroidMultiThreadingDemo.iml" filepath="C:\Users\Asim\Desktop\Workspace\androidMultiThreadingBehaviour\AndroidMultiThreadingDemo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/androidMultiThreadingBehaviour.iml" filepath="$PROJECT_DIR$/androidMultiThreadingBehaviour.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\Asim\Desktop\Workspace\androidMultiThreadingBehaviour\app\app.iml" filepath="C:\Users\Asim\Desktop\Workspace\androidMultiThreadingBehaviour\app\app.iml" />
     </modules>
   </component>
 </project>
